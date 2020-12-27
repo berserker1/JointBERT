@@ -1,0 +1,25 @@
+Earlier Prediction      ActiveLearner prediction     Correct Value
+atis_flight    atis_flight    atis_flight#atis_airfare
+atis_flight_time    atis_flight    atis_day_name
+atis_flight_time    atis_flight    atis_day_name
+atis_airport    atis_flight    atis_flight
+atis_airfare    atis_capacity    atis_ground_fare
+atis_capacity    atis_flight    atis_aircraft
+atis_flight    atis_flight    atis_flight#atis_airfare
+atis_airfare    atis_flight    atis_airfare#atis_flight
+atis_flight    atis_flight    atis_flight#atis_airfare
+atis_airfare    atis_flight    atis_flight#atis_airfare
+atis_airfare    atis_flight    atis_flight#atis_airfare
+atis_flight    atis_flight    atis_flight#atis_airline
+atis_flight    atis_flight    atis_flight#atis_airfare
+atis_flight    atis_flight    atis_flight#atis_airfare
+atis_flight_no    atis_flight    atis_flight_no#atis_airline
+atis_abbreviation    atis_city    atis_city
+atis_abbreviation    atis_city    atis_city
+atis_flight#atis_airfare    atis_flight    atis_flight
+atis_quantity    atis_flight    atis_flight
+atis_quantity    atis_flight    atis_flight
+atis_quantity    atis_flight    atis_flight
+atis_aircraft    atis_city    atis_abbreviation
+atis_aircraft    atis_city    atis_abbreviation
+atis_quantity    atis_flight    atis_flight
