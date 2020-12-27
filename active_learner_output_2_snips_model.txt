@@ -1,0 +1,13 @@
+Earlier Prediction      ActiveLearner prediction     Correct Value
+SearchCreativeWork    PlayMusic    SearchScreeningEvent
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+PlayMusic    SearchScreeningEvent    SearchCreativeWork
+SearchCreativeWork    PlayMusic    SearchScreeningEvent
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+AddToPlaylist    SearchScreeningEvent    PlayMusic
+BookRestaurant    SearchScreeningEvent    GetWeather
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+SearchCreativeWork    SearchScreeningEvent    SearchScreeningEvent
+PlayMusic    PlayMusic    SearchCreativeWork

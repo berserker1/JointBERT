@@ -150,7 +150,7 @@ def convert_input_file_to_tensor_dataset(lines,
     return [dataset, X]
 
 
-def random_forest_active_learner(n_queries, n_initial, X, y, part, incorrect_test_output_values_numbers, predict, total_correct_values):
+def random_forest_active_learner(n_queries, n_initial, X, y, part, incorrect_test_output_values_numbers, predict, total_correct_values, labelled_values, unique):
     initial_idx = np.random.choice(range(len(X)), size=n_initial, replace=False)
     X_training, y_training = X[initial_idx], y[initial_idx]
     kernel = RBF(length_scale=1.0, length_scale_bounds=(1e-2, 1e3)) \
@@ -323,7 +323,7 @@ def my_stuff(part, pred_config):
     print('N_initial is', n_initial)
     file_name = 'active_learner_modified_' + str(part) + "_" + pred_config.model_dir + '.txt'
     active_learner_output = random_forest_active_learner(n_queries, n_initial, X, y, part,
-                                                                      incorrect_test_output_values_numbers, predict, total_correct_values)
+                                                                      incorrect_test_output_values_numbers, predict, total_correct_values, labelled_values, unique)
 
     y_pred_final = active_learner_output[0]
     '''temp variable'''
