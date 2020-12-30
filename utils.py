@@ -105,3 +105,84 @@ def get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
     return {
         "sementic_frame_acc": sementic_acc
     }
+
+def modify_data_files(lines, args, task=None):
+    if task!= None:
+        args.task = task
+
+    training_folder_path = str(args.data_dir).replace('./', '') + '/' + str(args.task) + '/train'
+    testing_folder_path = str(args.data_dir).replace('./', '') + '/' + str(args.task) + '/test'
+    training_seq_in = training_folder_path + '/seq.in'
+    training_seq_out = training_folder_path + '/seq.out'
+    training_labels = training_folder_path + '/label'
+    testing_seq_in = testing_folder_path + '/seq.in'
+    testing_seq_out = testing_folder_path + '/seq.out'
+    testing_labels = testing_folder_path + '/label'
+    with open(training_seq_in, 'r+') as f, open(training_seq_out, 'r+') as g, open(training_labels, 'r+') as l:
+        o_training_seq_in = f.readlines()
+        if len(o_training_seq_in) - lines > 0:
+            transfer_seq_in = o_training_seq_in[lines:]
+            o_training_seq_out = g.readlines()
+            transfer_seq_out = o_training_seq_out[lines:]
+            o_training_labels = l.readlines()
+            transfer_labels = o_training_labels[lines:]
+            # Modifying training files
+            f.truncate(0)
+            g.truncate(0)
+            l.truncate(0)
+            f.seek(0)
+            g.seek(0)
+            l.seek(0)
+            f.writelines(o_training_seq_in[:lines])
+            g.writelines(o_training_seq_out[:lines])
+            l.writelines(o_training_labels[:lines])
+            print('transfer, ', 'seq.in len ', len(transfer_seq_in), 'seq.out len ', len(transfer_seq_out), 'labels len ', len(transfer_labels))
+            print('training orignal, ', 'seq.in len ', len(o_training_seq_in), 'seq.out len ', len(o_training_seq_out), 'labels len ', len(o_training_labels))
+        else:
+            # Will write the file with its original content
+            f.truncate(0)
+            f.writelines(o_training_seq_in)
+    with open(training_seq_in, 'r') as f, open(training_seq_out, 'r') as g, open(training_labels, 'r') as l:
+        print(len(f.readlines()), len(g.readlines()), len(l.readlines()))
+
+    with open(testing_seq_in, 'r') as f, open(testing_seq_out, 'r') as g, open(testing_labels, 'r') as l:
+        o_testing_seq_in = f.readlines()
+        o_testing_seq_out = g.readlines()
+        o_testing_labels = l.readlines()
+        print('testing orignal, ', len(o_testing_seq_in), len(o_testing_seq_out), len(o_testing_labels))
+    with open(testing_seq_in, 'a+') as f, open(testing_seq_out, 'a+') as g, open(testing_labels, 'a+') as l:
+        f.writelines(transfer_seq_in)
+        g.writelines(transfer_seq_out)
+        l.writelines(transfer_labels)
+        f.seek(0)
+        g.seek(0)
+        l.seek(0)
+        print('testing final, ', len(f.readlines()), len(g.readlines()), len(l.readlines()))
+
+    return [training_seq_in, training_seq_out, training_labels, testing_seq_in, testing_seq_out,
+            testing_labels, o_training_seq_in, o_training_seq_out, o_training_labels, o_testing_seq_in,
+            o_testing_seq_out, o_testing_labels]
+
+def restore_files(parameters, args):
+    # Restore the files
+    print('Restoring files')
+    training_seq_in = parameters[0]
+    training_seq_out = parameters[1]
+    training_labels = parameters[2]
+    testing_seq_in = parameters[3]
+    testing_seq_out = parameters[4]
+    testing_labels = parameters[5]
+    o_training_seq_in = parameters[6]
+    o_training_seq_out = parameters[7]
+    o_training_labels = parameters[8]
+    o_testing_seq_in = parameters[9]
+    o_testing_seq_out = parameters[10]
+    o_testing_labels = parameters[11]
+    with open(training_seq_in, 'w') as f, open(training_seq_out, 'w') as g, open(training_labels, 'w') as l:
+        f.writelines(o_training_seq_in)
+        g.writelines(o_training_seq_out)
+        l.writelines(o_training_labels)
+    with open(testing_seq_in, 'w') as f, open(testing_seq_out, 'w') as g, open(testing_labels, 'w') as l:
+        f.writelines(o_testing_seq_in)
+        g.writelines(o_testing_seq_out)
+        l.writelines(o_testing_labels)

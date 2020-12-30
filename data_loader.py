@@ -236,6 +236,7 @@ def load_and_cache_examples(args, tokenizer, mode):
         else:
             raise Exception("For mode, Only train, dev, test is available")
 
+        # print('mode is ', '\n', mode, examples[0], '\n', examples[1], '\n', type(examples[0]))
         # Use cross entropy ignore index as padding label id so that only real label ids contribute to the loss later
         pad_token_label_id = args.ignore_index
         features = convert_examples_to_features(examples, args.max_seq_len, tokenizer,

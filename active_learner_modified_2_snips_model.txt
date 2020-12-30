@@ -10,7 +10,7 @@ SearchScreeningEvent
 BookRestaurant
 SearchScreeningEvent
 SearchCreativeWork
-PlayMusic
+SearchCreativeWork
 BookRestaurant
 SearchCreativeWork
 GetWeather
@@ -24,7 +24,7 @@ AddToPlaylist
 SearchScreeningEvent
 GetWeather
 GetWeather
-SearchScreeningEvent
+SearchCreativeWork
 BookRestaurant
 PlayMusic
 AddToPlaylist
@@ -48,7 +48,7 @@ PlayMusic
 RateBook
 BookRestaurant
 BookRestaurant
-SearchScreeningEvent
+SearchCreativeWork
 BookRestaurant
 SearchCreativeWork
 BookRestaurant
@@ -87,7 +87,7 @@ SearchCreativeWork
 GetWeather
 AddToPlaylist
 AddToPlaylist
-PlayMusic
+SearchCreativeWork
 AddToPlaylist
 PlayMusic
 RateBook
@@ -146,7 +146,7 @@ SearchCreativeWork
 AddToPlaylist
 GetWeather
 GetWeather
-SearchScreeningEvent
+SearchCreativeWork
 GetWeather
 SearchScreeningEvent
 GetWeather
@@ -193,7 +193,7 @@ RateBook
 RateBook
 BookRestaurant
 SearchCreativeWork
-SearchScreeningEvent
+AddToPlaylist
 SearchScreeningEvent
 BookRestaurant
 PlayMusic
@@ -263,7 +263,7 @@ SearchScreeningEvent
 GetWeather
 AddToPlaylist
 GetWeather
-SearchScreeningEvent
+RateBook
 AddToPlaylist
 PlayMusic
 AddToPlaylist
@@ -342,7 +342,7 @@ AddToPlaylist
 PlayMusic
 AddToPlaylist
 AddToPlaylist
-SearchScreeningEvent
+AddToPlaylist
 RateBook
 BookRestaurant
 PlayMusic
@@ -358,7 +358,7 @@ RateBook
 GetWeather
 SearchScreeningEvent
 RateBook
-SearchScreeningEvent
+RateBook
 RateBook
 SearchScreeningEvent
 BookRestaurant
@@ -542,7 +542,7 @@ PlayMusic
 SearchCreativeWork
 AddToPlaylist
 SearchScreeningEvent
-SearchScreeningEvent
+RateBook
 SearchScreeningEvent
 SearchCreativeWork
 SearchScreeningEvent
@@ -589,7 +589,7 @@ BookRestaurant
 AddToPlaylist
 SearchScreeningEvent
 BookRestaurant
-SearchScreeningEvent
+SearchCreativeWork
 GetWeather
 BookRestaurant
 PlayMusic
@@ -615,7 +615,7 @@ SearchCreativeWork
 RateBook
 SearchScreeningEvent
 AddToPlaylist
-PlayMusic
+SearchCreativeWork
 SearchCreativeWork
 PlayMusic
 BookRestaurant

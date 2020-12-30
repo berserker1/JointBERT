@@ -14,9 +14,14 @@ import copy
 import torch
 from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
 
-from utils import init_logger, load_tokenizer, get_intent_labels, get_slot_labels, MODEL_CLASSES
+from utils import init_logger, load_tokenizer, get_intent_labels, get_slot_labels, MODEL_CLASSES, modify_data_files, restore_files
 
 logger = logging.getLogger(__name__)
+
+class temp_parse:
+    def __init__(self, data_dir):
+        self.data_dir = data_dir
+        self.task = None
 
 
 def get_device(pred_config):
@@ -181,7 +186,7 @@ def random_forest_active_learner(n_queries, n_initial, X, y, part, incorrect_tes
     return [y_pred_final, total_correct_values_numbers]
 
 
-def my_stuff(part, pred_config):
+def my_stuff(part, pred_config, lines_no):
     '''Variable declaration here'''
 
     temp = copy.deepcopy(pred_config)
@@ -270,12 +275,14 @@ def my_stuff(part, pred_config):
         training_file_name = 'data/snips/train/seq.in'
         training_labels_file_name = 'data/snips/train/label'
 
+    # breakpoint()
     with open(training_file_name, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             words = line.split()
             lines.append(words)
 
+    # breakpoint()
     y = read_labels(training_labels_file_name)
     c = read_labels(test_label_file_name)
     c = c + y
@@ -286,6 +293,7 @@ def my_stuff(part, pred_config):
     elif part == 3:
         predict = read_input_file(temp)
 
+    print(len(c))
     unique = list(np.unique(c))
 
     '''labelled_values is an array used for mapping to converting strings to numbers'''
@@ -321,7 +329,13 @@ def my_stuff(part, pred_config):
     n_initial = 5
     n_queries = 10
     print('N_initial is', n_initial)
-    file_name = 'active_learner_modified_' + str(part) + "_" + pred_config.model_dir + '.txt'
+    if lines_no != None:
+        file_name = 'active_learner_modified_' + str(part) + "_" + pred_config.model_dir + '_' + str(lines_no) + '.txt'
+        active_learner_output_file = 'active_learner_output_' + str(part) + "_" + pred_config.model_dir + '_' + str(lines_no) + '.txt'
+    else:
+        file_name = 'active_learner_modified_' + str(part) + "_" + pred_config.model_dir + '.txt'
+        active_learner_output_file = 'active_learner_output_' + str(part) + "_" + pred_config.model_dir + '.txt'
+
     active_learner_output = random_forest_active_learner(n_queries, n_initial, X, y, part,
                                                                       incorrect_test_output_values_numbers, predict, total_correct_values, labelled_values, unique)
 
@@ -329,7 +343,6 @@ def my_stuff(part, pred_config):
     '''temp variable'''
     copy_of_final_stuff = final_stuff.copy()
 
-    active_learner_output_file = 'active_learner_output_' + str(part) + "_" + pred_config.model_dir + '.txt'
     with open(file_name, 'w+') as f:
             new_outputs = []
             if part != 3:
@@ -455,6 +468,22 @@ if __name__ == "__main__":
     parser.add_argument("--no_cuda", action="store_true", help="Avoid using CUDA when available")
 
     pred_config = parser.parse_args()
+    # Transferring the data from train to test, dev remains the same
+    lines = None
+    # lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
+    # if lines > 0:
+    #     task_name = None
+    #     if pred_config.model_dir == 'atis_model':
+    #         task_name = 'atis'
+    #     elif pred_config.model_dir == 'snips_model':
+    #         task_name = 'snips'
+    #     else:
+    #         raise('Invalid input')
+    #     data_dir = './' + 'data'
+    #     temp = temp_parse(data_dir)
+    #     various_variables = modify_data_files(lines, temp, task_name)
+    # else:
+    #     raise('Wrong input')
     pred_val = None
     try:
         pred_val = int(input('> Do you want to predict and make an output file( press 1 ) or skip ( press 2 )?'))
@@ -472,6 +501,7 @@ if __name__ == "__main__":
         value = int(input('> Do you want to run the custom stuff, case 1 or 2 or 3 ?'))
         if value is not None:
             # print('Inside')
-            my_stuff(value, pred_config)
+            my_stuff(value, pred_config, lines)
     except:
         pass
+    # restore_files(various_variables, temp)
