@@ -10,18 +10,18 @@ def main(args):
     set_seed(args)
     tokenizer = load_tokenizer(args)
     # Transferring the data from train to test, dev remains the same
-    # lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
-    # if lines > 0:
-    #     various_variables = modify_data_files(lines, args)
-    # else:
-    #     raise('Wrong input')
+    lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
+    if lines > 0:
+        various_variables = modify_data_files(lines, args)
+    else:
+        raise('Wrong input')
 
     train_dataset = load_and_cache_examples(args, tokenizer, mode="train")
     dev_dataset = load_and_cache_examples(args, tokenizer, mode="dev")
     test_dataset = load_and_cache_examples(args, tokenizer, mode="test")
 
     print('Dataset size ', len(train_dataset), len(test_dataset))
-    # restore_files(various_variables, args)
+    restore_files(various_variables, args)
     trainer = Trainer(args, train_dataset, dev_dataset, test_dataset)
 
     if args.do_train:

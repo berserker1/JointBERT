@@ -470,20 +470,20 @@ if __name__ == "__main__":
     pred_config = parser.parse_args()
     # Transferring the data from train to test, dev remains the same
     lines = None
-    # lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
-    # if lines > 0:
-    #     task_name = None
-    #     if pred_config.model_dir == 'atis_model':
-    #         task_name = 'atis'
-    #     elif pred_config.model_dir == 'snips_model':
-    #         task_name = 'snips'
-    #     else:
-    #         raise('Invalid input')
-    #     data_dir = './' + 'data'
-    #     temp = temp_parse(data_dir)
-    #     various_variables = modify_data_files(lines, temp, task_name)
-    # else:
-    #     raise('Wrong input')
+    lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
+    if lines > 0:
+        task_name = None
+        if pred_config.model_dir == 'atis_model':
+            task_name = 'atis'
+        elif pred_config.model_dir == 'snips_model':
+            task_name = 'snips'
+        else:
+            raise('Invalid input')
+        data_dir = './' + 'data'
+        temp = temp_parse(data_dir)
+        various_variables = modify_data_files(lines, temp, task_name)
+    else:
+        raise('Wrong input')
     pred_val = None
     try:
         pred_val = int(input('> Do you want to predict and make an output file( press 1 ) or skip ( press 2 )?'))
@@ -504,4 +504,4 @@ if __name__ == "__main__":
             my_stuff(value, pred_config, lines)
     except:
         pass
-    # restore_files(various_variables, temp)
+    restore_files(various_variables, temp)
