@@ -12,7 +12,7 @@ def main(args):
     # Transferring the data from train to test, dev remains the same
     lines = int(input('> Number of lines for the training set, rest will be transferred to test, dev will be the same: '))
     if lines > 0:
-        various_variables = modify_data_files(lines, args)
+        various_variables = modify_data_files(lines, args, random=True)
     else:
         raise('Wrong input')
 

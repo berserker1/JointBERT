@@ -106,7 +106,7 @@ def get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
         "sementic_frame_acc": sementic_acc
     }
 
-def modify_data_files(lines, args, task=None):
+def modify_data_files(lines, args, task=None, random=False, sampling_array=None):
     if task!= None:
         args.task = task
 
@@ -118,24 +118,65 @@ def modify_data_files(lines, args, task=None):
     testing_seq_in = testing_folder_path + '/seq.in'
     testing_seq_out = testing_folder_path + '/seq.out'
     testing_labels = testing_folder_path + '/label'
+    sampling_array_file_name = 'sampling_indexes.txt'
     with open(training_seq_in, 'r+') as f, open(training_seq_out, 'r+') as g, open(training_labels, 'r+') as l:
         o_training_seq_in = f.readlines()
         if len(o_training_seq_in) - lines > 0:
-            transfer_seq_in = o_training_seq_in[lines:]
             o_training_seq_out = g.readlines()
-            transfer_seq_out = o_training_seq_out[lines:]
             o_training_labels = l.readlines()
-            transfer_labels = o_training_labels[lines:]
+            transfer_seq_in = []
+            transfer_seq_out = []
+            transfer_labels = []
+            random_sampling_index = []
+            output_training_seq_in = []
+            output_training_seq_out = []
+            output_training_labels = []
+            assert(len(o_training_labels) == len(o_training_seq_in) == len(o_training_seq_out))
+            if random == False:
+                transfer_seq_in = o_training_seq_in[lines:]
+                transfer_seq_out = o_training_seq_out[lines:]
+                transfer_labels = o_training_labels[lines:]
+                output_training_seq_in = o_training_seq_in[:lines]
+                output_training_seq_out = o_training_seq_out[:lines]
+                output_training_labels = o_training_labels[:lines]
             # Modifying training files
+            elif random == True:
+                # Generate random integers for indexes
+                temp1 = o_training_seq_in.copy()
+                temp2 = o_training_seq_out.copy()
+                temp3 = o_training_labels.copy()
+                if sampling_array == None:
+                    random_sampling_index = np.random.randint(len(o_training_seq_in), size=(lines))
+                    random_sampling_index[::-1].sort()
+                    with open(sampling_array_file_name, 'w') as k:
+                        # Convert each element from np.int64 to str
+                        str_random_sampling_index = [str(elem) + '\n' for elem in random_sampling_index]
+                        # breakpoint()
+                        k.writelines(str_random_sampling_index)
+                else:
+                    random_sampling_index = sampling_array
+                print('length of random array',len(random_sampling_index))
+                for elem in random_sampling_index:
+                    print(elem)
+                    output_training_seq_in.append(temp1[elem])
+                    output_training_seq_out.append(temp2[elem])
+                    output_training_labels.append(temp3[elem])
+                for elem in random_sampling_index:
+                    del temp1[elem]
+                    del temp2[elem]
+                    del temp3[elem]
+                transfer_seq_in = temp1
+                transfer_seq_out = temp2
+                transfer_labels = temp3
             f.truncate(0)
             g.truncate(0)
             l.truncate(0)
             f.seek(0)
             g.seek(0)
             l.seek(0)
-            f.writelines(o_training_seq_in[:lines])
-            g.writelines(o_training_seq_out[:lines])
-            l.writelines(o_training_labels[:lines])
+            f.writelines(output_training_seq_in)
+            g.writelines(output_training_seq_out)
+            l.writelines(output_training_labels)
             print('transfer, ', 'seq.in len ', len(transfer_seq_in), 'seq.out len ', len(transfer_seq_out), 'labels len ', len(transfer_labels))
             print('training orignal, ', 'seq.in len ', len(o_training_seq_in), 'seq.out len ', len(o_training_seq_out), 'labels len ', len(o_training_labels))
         else:

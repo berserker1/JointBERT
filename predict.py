@@ -177,11 +177,13 @@ def random_forest_active_learner(n_queries, n_initial, X, y, part, incorrect_tes
     y_pred_final = y_pred_final.ravel()
     total_correct_values_numbers = None
     if part != 3:
+        print((y_pred_final == np.asarray(incorrect_test_output_values_numbers)).sum(), 'is the number of corrections')
         print('Random forest regressor score ', regressor.score(predict, incorrect_test_output_values_numbers), 'modAL score function')
     else:
         total_correct_values_numbers = []
         for i in range(len(total_correct_values)):
             total_correct_values_numbers.append(labelled_values[unique.index(total_correct_values[i])])
+        print((y_pred_final == np.asarray(total_correct_values_numbers)).sum(), 'is the number of corrections')
         print('Random forest regressor score ', regressor.score(predict, total_correct_values_numbers), 'modAL score function')
     return [y_pred_final, total_correct_values_numbers]
 
@@ -481,7 +483,12 @@ if __name__ == "__main__":
             raise('Invalid input')
         data_dir = './' + 'data'
         temp = temp_parse(data_dir)
-        various_variables = modify_data_files(lines, temp, task_name)
+        sampling_index = []
+        with open('sampling_indexes.txt', 'r') as f:
+            content = f.readlines()
+            sampling_index = [int(elem.split('\n')[0]) for elem in content]
+            breakpoint()
+        various_variables = modify_data_files(lines, temp, task_name, random=True, sampling_array=sampling_index)
     else:
         raise('Wrong input')
     pred_val = None
