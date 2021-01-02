@@ -157,7 +157,7 @@ def modify_data_files(lines, args, task=None, random=False, sampling_array=None)
                     random_sampling_index = sampling_array
                 print('length of random array',len(random_sampling_index))
                 for elem in random_sampling_index:
-                    print(elem)
+                    # print(elem)
                     output_training_seq_in.append(temp1[elem])
                     output_training_seq_out.append(temp2[elem])
                     output_training_labels.append(temp3[elem])

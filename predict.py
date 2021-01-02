@@ -487,7 +487,7 @@ if __name__ == "__main__":
         with open('sampling_indexes.txt', 'r') as f:
             content = f.readlines()
             sampling_index = [int(elem.split('\n')[0]) for elem in content]
-            breakpoint()
+            # breakpoint()
         various_variables = modify_data_files(lines, temp, task_name, random=True, sampling_array=sampling_index)
     else:
         raise('Wrong input')
